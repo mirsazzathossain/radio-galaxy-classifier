@@ -18,12 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up the environment
-        uses: ./.github/actions/setup-python-env
-
-      - name: Build package
-        run: uvx --from build pyproject-build --installer uv
-
       - name: Python Semantic Release
         id: release
         uses: python-semantic-release/python-semantic-release@v9.8.8
@@ -32,6 +26,12 @@ jobs:
           commit: true
           tag: true
           changelog: true
+
+      - name: Set up the environment
+        uses: ./.github/actions/setup-python-env
+
+      - name: Build package
+        run: uvx --from build pyproject-build --installer uv
 
       - name: Upload build artifacts for GitHub Release
         uses: actions/upload-artifact@v4
