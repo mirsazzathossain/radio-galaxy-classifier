@@ -1082,35 +1082,13 @@ wheels = [
 name = "pandas-stubs"
 version = "2.0.2.230605"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version <= '3.8'",
-    "python_full_version == '3.9.*'",
-    "python_full_version == '3.10.*'",
-    "python_full_version >= '3.11' and python_full_version < '3.13'",
-    "python_full_version >= '3.13'",
-]
 dependencies = [
-    { name = "numpy", marker = "python_full_version <= '3.8' or python_full_version >= '3.9'" },
-    { name = "types-pytz", marker = "python_full_version <= '3.8' or python_full_version >= '3.9'" },
+    { name = "numpy" },
+    { name = "types-pytz" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/46/55/223223da2938e60e0bf3f1fde843e0e0680471992d27dd9d8d0f11fed72e/pandas_stubs-2.0.2.230605.tar.gz", hash = "sha256:624c7bb06d38145a44b61be459ccd19b038e0bf20364a025ecaab78fea65e858", size = 98797 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/09/1d/2b9b5905d869c3e65d1c35e2a6420cbe4313a277aabfae6001670ef04075/pandas_stubs-2.0.2.230605-py3-none-any.whl", hash = "sha256:39106b602f3cb6dc5f728b84e1b32bde6ecf41ee34ee714c66228009609fbada", size = 151685 },
-]
-
-[[package]]
-name = "pandas-stubs"
-version = "2.0.3.230814"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version > '3.8' and python_full_version < '3.9'",
-]
-dependencies = [
-    { name = "types-pytz", marker = "python_full_version > '3.8' and python_full_version < '3.9'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/cc/73/852fec3fa5dd3072c261fb5153e82badcb6da63d8c3bbd4b386af0005379/pandas_stubs-2.0.3.230814.tar.gz", hash = "sha256:1d5cc09e36e3d9f9a1ed9dceae4e03eeb26d1b898dd769996925f784365c8769", size = 100183 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/0c/e9/e9550b05e262afc75b014b79224b6910f7cbc85cc40448b709ac90a58ecd/pandas_stubs-2.0.3.230814-py3-none-any.whl", hash = "sha256:4b3dfc027d49779176b7daa031a3405f7b839bcb6e312f4b9f29fea5feec5b4f", size = 153118 },
 ]
 
 [[package]]
@@ -1384,6 +1362,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/74/67/00efc8d11b630c56f15f4ad9c7f9223f1e5ec275aaae3fa9118c6a223ad2/pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857", size = 63042 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/78/3a/af5b4fa5961d9a1e6237b530eb87dd04aea6eb83da09d2a4073d81b54ccf/pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652", size = 21990 },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.14.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c6/90/a955c3ab35ccd41ad4de556596fa86685bf4fc5ffcc62d22d856cfd4e29a/pytest-mock-3.14.0.tar.gz", hash = "sha256:2719255a1efeceadbc056d6bf3df3d1c5015530fb40cf347c0f9afac88410bd0", size = 32814 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f2/3b/b26f90f74e2986a82df6e7ac7e319b8ea7ccece1caec9f8ab6104dc70603/pytest_mock-3.14.0-py3-none-any.whl", hash = "sha256:0b72c38033392a5f4621342fe11e9219ac11ec9d375f8e2a0c164539e0d70f6f", size = 9863 },
 ]
 
 [[package]]
@@ -1671,10 +1661,7 @@ version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "astroquery" },
-    { name = "numpy" },
     { name = "pandas" },
-    { name = "pandas-stubs", version = "2.0.2.230605", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version <= '3.8' or python_full_version >= '3.9'" },
-    { name = "pandas-stubs", version = "2.0.3.230814", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version > '3.8' and python_full_version < '3.9'" },
 ]
 
 [package.dev-dependencies]
@@ -1684,9 +1671,11 @@ dev = [
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
     { name = "mypy" },
+    { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "pytest-mock" },
     { name = "python-semantic-release" },
     { name = "ruff" },
     { name = "tox" },
@@ -1695,9 +1684,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "astroquery", specifier = ">=0.4.7" },
-    { name = "numpy", specifier = ">=1.24.4" },
     { name = "pandas", specifier = ">=2.0.3" },
-    { name = "pandas-stubs", specifier = ">=2.0.2.230605" },
 ]
 
 [package.metadata.requires-dev]
@@ -1707,9 +1694,11 @@ dev = [
     { name = "mkdocs-material", specifier = ">=8.5.10" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.19.0" },
     { name = "mypy", specifier = ">=0.991" },
+    { name = "pandas-stubs", specifier = ">=2.0.2.230605" },
     { name = "pre-commit", specifier = ">=2.20.0" },
     { name = "pytest", specifier = ">=7.2.0" },
     { name = "pytest-cov", specifier = ">=4.0.0" },
+    { name = "pytest-mock", specifier = ">=3.14.0" },
     { name = "python-semantic-release", specifier = ">=9.8.8" },
     { name = "ruff", specifier = ">=0.0.235" },
     { name = "tox", specifier = ">=3.25.1" },

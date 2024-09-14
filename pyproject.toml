@@ -13,9 +13,7 @@ classifiers=[
 ]
 dependencies = [
     "astroquery>=0.4.7",
-    "numpy>=1.24.4",
     "pandas>=2.0.3",
-    "pandas-stubs>=2.0.2.230605",
 ]
 
 [project.urls]
@@ -36,6 +34,8 @@ dev-dependencies = [
     "mkdocs-material>=8.5.10",
     "mkdocstrings[python]>=0.19.0",
     "python-semantic-release>=9.8.8",
+    "pytest-mock>=3.14.0",
+    "pandas-stubs>=2.0.2.230605",
 ]
 
 [build-system]
