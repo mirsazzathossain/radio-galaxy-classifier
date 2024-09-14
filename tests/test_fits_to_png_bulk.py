@@ -15,12 +15,12 @@ class TestFitsToPngBulk(unittest.TestCase):
         mock_fits_files = [Path(f"file{i}.fits") for i in range(3)]
         mock_rglob.return_value = mock_fits_files
 
-        # Mock the PNG file path join
-        mock_join.side_effect = lambda png_dir, file_stem: f"{png_dir}/{file_stem}.png"
+        # Corrected join mock to ensure no double ".png" extension
+        mock_join.side_effect = lambda png_dir, file_stem: f"{png_dir}/{Path(file_stem).stem}.png"
 
-        # Mock the image returned by fits_to_png
+        # Mock the image returned by fits_to_png (valid case)
         mock_image = MagicMock()
-        mock_fits_to_png.return_value = mock_image
+        mock_fits_to_png.side_effect = [mock_image, None, mock_image]  # Second call returns None
 
         # Call the function
         fits_to_png_bulk("fits_dir", "png_dir", img_size=(100, 100))
@@ -29,12 +29,14 @@ class TestFitsToPngBulk(unittest.TestCase):
         mock_rglob.assert_called_once_with("*.fits")
         mock_mkdir.assert_called()
         self.assertEqual(mock_fits_to_png.call_count, 3)
-        self.assertEqual(mock_image.save.call_count, 3)
 
-        # Verify the image save calls
+        # Verify that save is called only for non-None images
+        self.assertEqual(mock_image.save.call_count, 2)  # save called twice, not on None
         mock_image.save.assert_any_call("png_dir/file0.png")
-        mock_image.save.assert_any_call("png_dir/file1.png")
         mock_image.save.assert_any_call("png_dir/file2.png")
+
+        # Ensure save is not called for the None image
+        self.assertNotIn("png_dir/file1.png", [call[0][0] for call in mock_image.save.call_args_list])
 
 
 if __name__ == "__main__":
