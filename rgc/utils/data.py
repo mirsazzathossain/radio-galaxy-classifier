@@ -16,15 +16,6 @@ from astroquery.skyview import SkyView
 from astroquery.vizier import Vizier
 
 
-class _UnsupportedServiceError(Exception):
-    """
-    An exception to be raised when an unsupported service is provided.
-    """
-
-    def __init__(self) -> None:
-        super().__init__("Unsupported service provided. Only 'Vizier' is supported.")
-
-
 def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
     """
     Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.
@@ -44,6 +35,15 @@ def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
         return cast(pd.DataFrame, catalog[0].to_pandas())
     else:
         raise _UnsupportedServiceError()
+
+
+class _UnsupportedServiceError(Exception):
+    """
+    An exception to be raised when an unsupported service is provided.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("Unsupported service provided. Only 'Vizier' is supported.")
 
 
 def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None:
@@ -74,3 +74,34 @@ def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None
     folder_path = Path(filename).parent
     Path(folder_path).mkdir(parents=True, exist_ok=True)
     image.writeto(filename, overwrite=True)
+
+
+def celestial_tag(entry: pd.DataFrame) -> str:
+    """
+    Generate name tag for a celestial object.
+
+    :param entry: A pandas DataFrame entry of the catalog.
+    :type entry: pd.DataFrame
+
+    :return: A string containing the name tag.
+    :rtype: str
+    """
+    if {"RAJ2000", "DEJ2000"}.issubset(entry.keys()):
+        return f"{entry['RAJ2000']}{'+' if entry['DEJ2000'] > 0 else ''}{entry['DEJ2000']}"
+    elif {"RA", "DEC"}.issubset(entry.keys()):
+        return f"{entry['RA']}{'+' if entry['DEC'] > 0 else ''}{entry['DEC']}"
+    elif "filename" in entry:
+        return entry["filename"]
+    elif "FCG" in entry:
+        return entry["FCG"]
+    else:
+        raise _NoValidCelestialCoordinatesError()
+
+
+class _NoValidCelestialCoordinatesError(Exception):
+    """
+    An exception to be raised when no valid celestial coordinates are found in the entry.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("No valid celestial coordinates found in the entry to generate a tag.")
