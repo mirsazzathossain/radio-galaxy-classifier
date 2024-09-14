@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rgc.foo" class="md-skip">
+        <a href="#rgc.utils.data" class="md-skip">
           Skip to content
         </a>
       
@@ -319,18 +319,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#rgc.foo" class="md-nav__link">
+  <a href="#rgc.utils.data" class="md-nav__link">
     <span class="md-ellipsis">
-      foo
+      data
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#rgc.foo.foo" class="md-nav__link">
+  <a href="#rgc.utils.data.catalog_quest" class="md-nav__link">
     <span class="md-ellipsis">
-      foo
+      catalog_quest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.celestial_capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      celestial_capture
     </span>
   </a>
   
@@ -369,18 +378,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#rgc.foo" class="md-nav__link">
+  <a href="#rgc.utils.data" class="md-nav__link">
     <span class="md-ellipsis">
-      foo
+      data
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#rgc.foo.foo" class="md-nav__link">
+  <a href="#rgc.utils.data.catalog_quest" class="md-nav__link">
     <span class="md-ellipsis">
-      foo
+      catalog_quest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.celestial_capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      celestial_capture
     </span>
   </a>
   
@@ -410,8 +428,12 @@
 
 
 
-<a id="rgc.foo"></a>
+<a id="rgc.utils.data"></a>
     <div class="doc doc-contents first">
+
+        <p>A collection of utility functions for data manipulation.</p>
+<p>This module contains a collection of utility functions for astronomical data
+manipulation.</p>
 
 
 
@@ -428,96 +450,145 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="rgc.foo.foo" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span></code>
+<h2 id="rgc.utils.data.catalog_quest" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">catalog_quest</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="s1">&#39;Vizier&#39;</span><span class="p">)</span></code>
 
-<a href="#rgc.foo.foo" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#rgc.utils.data.catalog_quest" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Summary line.</p>
-<p>Extended description of function.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code>bar</code></td>
-            <td>
-                  <code>str</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Description of input argument.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code>str</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Description of return value</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.</p>
+<p>:param name: The name of the catalog to be fetched.
+:type name: str</p>
+<p>:param service: The name of the astronomical service to be used.
+:type service: str</p>
+<p>:return: A pandas DataFrame containing the fetched catalog.
+:rtype: pd.DataFrame</p>
 
             <details class="quote">
-              <summary>Source code in <code>rgc/foo.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summary line.</span>
+              <summary>Source code in <code>rgc/utils/data.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">catalog_quest</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">service</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Vizier&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.</span>
 
-<span class="sd">    Extended description of function.</span>
+<span class="sd">    :param name: The name of the catalog to be fetched.</span>
+<span class="sd">    :type name: str</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        bar: Description of input argument.</span>
+<span class="sd">    :param service: The name of the astronomical service to be used.</span>
+<span class="sd">    :type service: str</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        Description of return value</span>
+<span class="sd">    :return: A pandas DataFrame containing the fetched catalog.</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">service</span> <span class="o">==</span> <span class="s2">&quot;Vizier&quot;</span><span class="p">:</span>
+        <span class="n">Vizier</span><span class="o">.</span><span class="n">ROW_LIMIT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">Vizier</span><span class="o">.</span><span class="n">get_catalogs</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">catalog</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">_UnsupportedServiceError</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
 
-    <span class="k">return</span> <span class="n">bar</span>
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="rgc.utils.data.celestial_capture" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">celestial_capture</span><span class="p">(</span><span class="n">survey</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></code>
+
+<a href="#rgc.utils.data.celestial_capture" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Capture a celestial image using the SkyView service.</p>
+<p>:param survey: The name of the survey to be used e.g. 'VLA FIRST (1.4 GHz)'.
+:type survey: str</p>
+<p>:param ra: The right ascension of the celestial object.
+:type ra: float</p>
+<p>:param dec: The declination of the celestial object.
+:type dec: float</p>
+<p>:param filename: The name of the file to save the image.
+:type filename: str</p>
+
+            <details class="quote">
+              <summary>Source code in <code>rgc/utils/data.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">celestial_capture</span><span class="p">(</span><span class="n">survey</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ra</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dec</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Capture a celestial image using the SkyView service.</span>
+
+<span class="sd">    :param survey: The name of the survey to be used e.g. &#39;VLA FIRST (1.4 GHz)&#39;.</span>
+<span class="sd">    :type survey: str</span>
+
+<span class="sd">    :param ra: The right ascension of the celestial object.</span>
+<span class="sd">    :type ra: float</span>
+
+<span class="sd">    :param dec: The declination of the celestial object.</span>
+<span class="sd">    :type dec: float</span>
+
+<span class="sd">    :param filename: The name of the file to save the image.</span>
+<span class="sd">    :type filename: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">SkyView</span><span class="o">.</span><span class="n">get_images</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">survey</span><span class="o">=</span><span class="n">survey</span><span class="p">,</span> <span class="n">coordinates</span><span class="o">=</span><span class="s2">&quot;J2000&quot;</span><span class="p">,</span> <span class="n">pixels</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">comment</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;COMMENT&quot;</span><span class="p">])</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">comment</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">comment</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+    <span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">add_comment</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+
+    <span class="n">folder_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
