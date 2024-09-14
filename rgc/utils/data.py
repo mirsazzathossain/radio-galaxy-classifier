@@ -76,26 +76,33 @@ def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None
     image.writeto(filename, overwrite=True)
 
 
-def celestial_tag(entry: pd.DataFrame) -> str:
+def celestial_tag(entry: pd.Series) -> str:
     """
-    Generate name tag for a celestial object.
+    Generate a name tag for a celestial object based on its coordinates.
 
-    :param entry: A pandas DataFrame entry of the catalog.
-    :type entry: pd.DataFrame
+    :param entry: A pandas Series entry of the catalog.
+    :type entry: pd.Series
 
     :return: A string containing the name tag.
     :rtype: str
     """
-    if {"RAJ2000", "DEJ2000"}.issubset(entry.keys()):
-        return f"{entry['RAJ2000']}{'+' if entry['DEJ2000'] > 0 else ''}{entry['DEJ2000']}"
-    elif {"RA", "DEC"}.issubset(entry.keys()):
-        return f"{entry['RA']}{'+' if entry['DEC'] > 0 else ''}{entry['DEC']}"
-    elif "filename" in entry:
-        return entry["filename"]
-    elif "FCG" in entry:
-        return entry["FCG"]
+
+    def format_dec(dec: str) -> str:
+        sign = "+" if float(dec.replace(" ", "")) > 0 else ""
+        return f"{sign}{dec}"
+
+    if {"RAJ2000", "DEJ2000"}.issubset(entry.index):
+        ra, dec = entry["RAJ2000"], entry["DEJ2000"]
+    elif {"RA", "DEC"}.issubset(entry.index):
+        ra, dec = entry["RA"], entry["DEC"]
+    elif "filename" in entry.index:
+        return f"{entry['filename']}"
+    elif "FCG" in entry.index:
+        return f"{entry['FCG']}"
     else:
         raise _NoValidCelestialCoordinatesError()
+
+    return f"{ra}{format_dec(dec)}"
 
 
 class _NoValidCelestialCoordinatesError(Exception):
