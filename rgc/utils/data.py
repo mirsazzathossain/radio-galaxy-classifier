@@ -21,7 +21,7 @@ class _UnsupportedServiceError(Exception):
         super().__init__("Unsupported service provided. Only 'Vizier' is supported.")
 
 
-def fetch_catalog(name: str, service: str = "Vizier") -> pd.DataFrame:
+def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
     """
     Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.
 

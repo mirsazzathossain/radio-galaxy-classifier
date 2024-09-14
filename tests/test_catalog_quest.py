@@ -1,10 +1,10 @@
 import pandas as pd
 import pytest
 
-from rgc.utils.data import fetch_catalog
+from rgc.utils.data import catalog_quest
 
 
-def test_fetch_catalog(mocker):
+def test_catalog_quest(mocker):
     # Mock the Vizier object and its methods
     mock_vizier = mocker.patch("rgc.utils.data.Vizier")
     mock_catalog = mocker.MagicMock()
@@ -12,7 +12,7 @@ def test_fetch_catalog(mocker):
     mock_vizier.get_catalogs.return_value = [mock_catalog]
 
     # Call the function
-    result = fetch_catalog("some_catalog", service="Vizier")
+    result = catalog_quest("some_catalog", service="Vizier")
 
     # Verify the result
     expected_df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
@@ -20,6 +20,6 @@ def test_fetch_catalog(mocker):
     mock_vizier.get_catalogs.assert_called_once_with("some_catalog")
 
 
-def test_fetch_catalog_unsupported_service():
+def test_catalog_quest_unsupported_service():
     with pytest.raises(Exception, match="Unsupported service provided. Only 'Vizier' is supported."):
-        fetch_catalog("some_catalog", service="UnsupportedService")
+        catalog_quest("some_catalog", service="UnsupportedService")
