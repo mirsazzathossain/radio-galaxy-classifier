@@ -1,31 +1,20 @@
-## Feature Request
-
-**Feature Description**
-
-Provide a clear and concise description of the feature you would like to see.
-
-**Use Case**
-
-Explain the context in which this feature will be used. How will it benefit users or solve a specific problem?
-
-**Proposed Implementation**
-
-Outline your suggested approach for implementing this feature. Include any specific ideas, designs, or references.
-
-**Additional Information**
-
-- **Dependencies**: Are there any dependencies or related features that need to be considered?
-- **Impact**: What impact will this feature have on the current system or workflow?
-- **Acceptance Criteria**: What conditions must be met for this feature to be considered complete?
-
-**Screenshots/Mockups**
-
-If applicable, attach any screenshots or mockups that help illustrate your request.
-
-**Additional Comments**
-
-Any other comments or information relevant to the feature request.
+---
+name: Feature request
+about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
-Thank you for contributing to [Project Name]!
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
+
+**Describe alternatives you've considered**
+A clear and concise description of any alternative solutions or features you've considered.
+
+**Additional context**
+Add any other context or screenshots about the feature request here.
