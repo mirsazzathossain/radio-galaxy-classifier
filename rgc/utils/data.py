@@ -16,15 +16,6 @@ from astroquery.skyview import SkyView
 from astroquery.vizier import Vizier
 
 
-class _UnsupportedServiceError(Exception):
-    """
-    An exception to be raised when an unsupported service is provided.
-    """
-
-    def __init__(self) -> None:
-        super().__init__("Unsupported service provided. Only 'Vizier' is supported.")
-
-
 def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
     """
     Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.
@@ -44,6 +35,15 @@ def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
         return cast(pd.DataFrame, catalog[0].to_pandas())
     else:
         raise _UnsupportedServiceError()
+
+
+class _UnsupportedServiceError(Exception):
+    """
+    An exception to be raised when an unsupported service is provided.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("Unsupported service provided. Only 'Vizier' is supported.")
 
 
 def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None:
@@ -74,3 +74,41 @@ def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None
     folder_path = Path(filename).parent
     Path(folder_path).mkdir(parents=True, exist_ok=True)
     image.writeto(filename, overwrite=True)
+
+
+def celestial_tag(entry: pd.Series) -> str:
+    """
+    Generate a name tag for a celestial object based on its coordinates.
+
+    :param entry: A pandas Series entry of the catalog.
+    :type entry: pd.Series
+
+    :return: A string containing the name tag.
+    :rtype: str
+    """
+
+    def format_dec(dec: str) -> str:
+        sign = "+" if float(dec.replace(" ", "")) > 0 else ""
+        return f"{sign}{dec}"
+
+    if {"RAJ2000", "DEJ2000"}.issubset(entry.index):
+        ra, dec = entry["RAJ2000"], entry["DEJ2000"]
+    elif {"RA", "DEC"}.issubset(entry.index):
+        ra, dec = entry["RA"], entry["DEC"]
+    elif "filename" in entry.index:
+        return f"{entry['filename']}"
+    elif "FCG" in entry.index:
+        return f"{entry['FCG']}"
+    else:
+        raise _NoValidCelestialCoordinatesError()
+
+    return f"{ra}{format_dec(dec)}"
+
+
+class _NoValidCelestialCoordinatesError(Exception):
+    """
+    An exception to be raised when no valid celestial coordinates are found in the entry.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("No valid celestial coordinates found in the entry to generate a tag.")
