@@ -72,6 +72,9 @@ uv sync
 
 ```bash
 uv run pre-commit install
+
+# To run the pre-commit checks manually, run:
+uv run pre-commit run -a
 ```
 
 5. Create a branch for local development:
