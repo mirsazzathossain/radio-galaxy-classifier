@@ -14,7 +14,7 @@ classifiers=[
 dependencies = [
     "astroquery>=0.4.7",
     "numpy>=1.24.4",
-    "pandas>=2.0.3",
+    "pandas-stubs>=2.0.2.230605",
 ]
 
 [project.urls]
