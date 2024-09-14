@@ -3,6 +3,7 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 from PIL import Image
@@ -32,15 +33,42 @@ class TestMaskImageBulk(unittest.TestCase):
 
     def test_mask_image_bulk(self):
         mask_image_bulk(self.image_dir, self.mask_dir, self.masked_dir)
-
         masked_file_path = Path(self.masked_dir) / "test_image.png"
         self.assertTrue(masked_file_path.exists())
-
         masked_image = Image.open(masked_file_path)
         masked_array = np.array(masked_image)
-
         expected_array = np.array([[100, 0, 200], [0, 75, 0], [0, 25, 0]], dtype=np.uint8)
         np.testing.assert_array_equal(masked_array, expected_array)
+
+    @patch("builtins.print")
+    def test_dimension_mismatch(self, mock_print):
+        # Ensure mask_dir is empty
+        for mask_file in Path(self.mask_dir).glob("*.png"):
+            os.remove(mask_file)
+
+        # Create a mask with a different dimension
+        mismatch_mask_array = np.array([[1, 0]], dtype=np.uint8)
+        mismatch_mask_path = Path(self.mask_dir) / "test_image.png"
+        Image.fromarray(mismatch_mask_array, mode="L").save(mismatch_mask_path)
+
+        # Ensure image_dir contains only the test image
+        for image_file in Path(self.image_dir).glob("*.png"):
+            os.remove(image_file)
+
+        Image.fromarray(self.image_array, mode="L").save(Path(self.image_dir) / "test_image.png")
+
+        # Run the function and check if the dimension mismatch is handled
+        mask_image_bulk(self.image_dir, self.mask_dir, self.masked_dir)
+
+        # Check if masked directory is still empty
+        self.assertFalse(
+            list(Path(self.masked_dir).glob("*.png")),
+            "Masked directory should be empty if there is a dimension mismatch",
+        )
+
+        # Verify that the print statement was made
+        # Ensure to check the exact message your code prints
+        mock_print.assert_called_with("Skipping test_image.png due to mismatched dimensions.")
 
     def test_missing_mask_file(self):
         # Create a directory with an image but without a corresponding mask
@@ -53,35 +81,6 @@ class TestMaskImageBulk(unittest.TestCase):
         self.assertFalse(os.listdir(self.masked_dir), "Masked directory should be empty if mask file is missing")
 
         shutil.rmtree(missing_mask_dir)
-
-    def test_dimension_mismatch(self):
-        # Ensure mask_dir is empty
-        for mask_file in Path(self.mask_dir).glob("*.png"):
-            os.remove(mask_file)
-
-        # Create a mask with a different dimension
-        mismatch_mask_array = np.array([[1, 0]], dtype=np.uint8)
-        mismatch_mask_path = Path(self.mask_dir) / "mismatch_mask.png"
-        Image.fromarray(mismatch_mask_array, mode="L").save(mismatch_mask_path)
-
-        # Ensure image_dir contains only the test image
-        for image_file in Path(self.image_dir).glob("*.png"):
-            os.remove(image_file)
-
-        Image.fromarray(self.image_array, mode="L").save(Path(self.image_dir) / "test_image.png")
-
-        # Ensure directories are ready for testing
-        self.assertEqual(len(list(Path(self.image_dir).glob("*.png"))), 1)
-        self.assertEqual(len(list(Path(self.mask_dir).glob("*.png"))), 1)
-
-        # Run the function and check if the dimension mismatch error is handled
-        mask_image_bulk(self.image_dir, self.mask_dir, self.masked_dir)
-
-        # Check if masked directory is still empty since the mask has a dimension mismatch
-        self.assertFalse(
-            list(Path(self.masked_dir).glob("*.png")),
-            "Masked directory should be empty if there is a dimension mismatch",
-        )
 
     def test_empty_image_dir(self):
         empty_image_dir = tempfile.mkdtemp()
