@@ -242,7 +242,7 @@ def mask_image_bulk(image_dir: str, mask_dir: str, masked_dir: str) -> None:
         raise _FileNotFoundError()
 
     if len(image_paths) != len(mask_paths):
-        raise _ImageMaskCountMismatchError()
+        raise _ImageMaskCountMismatchError() from None
 
     os.makedirs(masked_dir, exist_ok=True)
 
@@ -256,10 +256,10 @@ def mask_image_bulk(image_dir: str, mask_dir: str, masked_dir: str) -> None:
         image = Image.open(image_path)
         mask = Image.open(mask_path)
 
-        try:
-            masked_image = mask_image(image, mask)
-        except _ImageMaskDimensionError:
-            print(f"Skipping {image_path.name} due to dimension mismatch.")
+        if image.size != mask.size:
+            print(f"Skipping {image_path.name} due to mismatched dimensions.")
             continue
+        else:
+            masked_image = mask_image(image, mask)
 
         masked_image.save(Path(masked_dir) / image_path.name)
