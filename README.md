@@ -1,7 +1,7 @@
 # radio-galaxy-classifier
 
 [![Release](https://img.shields.io/github/v/release/mirsazzathossain/radio-galaxy-classifier)](https://img.shields.io/github/v/release/mirsazzathossain/radio-galaxy-classifier)
-[![Build status](https://img.shields.io/github/actions/workflow/status/mirsazzathossain/radio-galaxy-classifier/main.yml?branch=main)](https://github.com/mirsazzathossain/radio-galaxy-classifier/actions/workflows/main.yml?query=branch%3Amain)
+[![Build status](https://img.shields.io/github/actions/workflow/status/mirsazzathossain/radio-galaxy-classifier/ci.yml?branch=main)](https://github.com/mirsazzathossain/radio-galaxy-classifier/actions/workflows/main.yml?query=branch%3Amain)
 [![codecov](https://codecov.io/gh/mirsazzathossain/radio-galaxy-classifier/branch/main/graph/badge.svg)](https://codecov.io/gh/mirsazzathossain/radio-galaxy-classifier)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/mirsazzathossain/radio-galaxy-classifier)](https://img.shields.io/github/commit-activity/m/mirsazzathossain/radio-galaxy-classifier)
 [![License](https://img.shields.io/github/license/mirsazzathossain/radio-galaxy-classifier?label=license)](https://img.shields.io/github/license/mirsazzathossain/radio-galaxy-classifier?label=license)
