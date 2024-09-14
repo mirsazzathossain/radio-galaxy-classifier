@@ -124,11 +124,11 @@ class _NoValidCelestialCoordinatesError(Exception):
 
 class _FileNotFoundError(Exception):
     """
-    An exception to be raised when the FITS file is not found.
+    An exception to be raised when a file is not found.
     """
 
-    def __init__(self, fits_file: str) -> None:
-        super().__init__(f"File {fits_file} not found.")
+    def __init__(self, message: str = "File not found.") -> None:
+        super().__init__(message)
 
 
 def fits_to_png(fits_file: str, img_size: Optional[tuple[int, int]] = None) -> Image.Image:
@@ -189,3 +189,77 @@ def fits_to_png_bulk(fits_dir: str, png_dir: str, img_size: Optional[tuple[int, 
 
         if image is not None:
             image.save(png_file)
+
+
+def mask_image(image: Image.Image, mask: Image.Image) -> Image.Image:
+    """
+    Mask an image with a given mask image.
+
+    :param image: The image to be masked.
+    :type image: Image.Image
+
+    :param mask: The mask image.
+    :type mask: Image.Image
+
+    :return: A PIL Image object containing the masked image.
+    :rtype: Image.Image
+    """
+    image_array = np.array(image)
+    mask_array = np.array(mask)
+
+    if image_array.shape != mask_array.shape:
+        raise _ImageMaskDimensionError()
+
+    masked_array = np.where(mask_array == 0, 0, image_array)
+    masked_image = Image.fromarray(masked_array, mode="L")
+
+    return cast(Image.Image, masked_image)
+
+
+class _ImageMaskDimensionError(Exception):
+    """
+    An exception to be raised when the dimensions of the image and mask do not match.
+    """
+
+    def __init__(self) -> None:
+        super().__init__("Image and mask must have the same dimensions.")
+
+
+class _ImageMaskCountMismatchError(Exception):
+    """
+    An exception to be raised when the number of images and masks do not match.
+    """
+
+    def __init__(self, message: str = "Number of images and masks must match and be non-zero.") -> None:
+        super().__init__(message)
+
+
+def mask_image_bulk(image_dir: str, mask_dir: str, masked_dir: str) -> None:
+    image_paths = sorted(Path(image_dir).glob("*.png"))
+    mask_paths = sorted(Path(mask_dir).glob("*.png"))
+
+    if len(image_paths) == 0 or len(mask_paths) == 0:
+        raise _FileNotFoundError()
+
+    if len(image_paths) != len(mask_paths):
+        raise _ImageMaskCountMismatchError()
+
+    os.makedirs(masked_dir, exist_ok=True)
+
+    for image_path in image_paths:
+        mask_path = Path(mask_dir) / image_path.name
+
+        if not mask_path.exists():
+            print(f"Skipping {image_path.name} due to missing mask.")
+            continue
+
+        image = Image.open(image_path)
+        mask = Image.open(mask_path)
+
+        try:
+            masked_image = mask_image(image, mask)
+        except _ImageMaskDimensionError:
+            print(f"Skipping {image_path.name} due to dimension mismatch.")
+            continue
+
+        masked_image.save(Path(masked_dir) / image_path.name)
