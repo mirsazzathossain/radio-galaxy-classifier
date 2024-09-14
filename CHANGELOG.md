@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## v0.4.0 (2024-09-14)
+
+### Chore
+
+* chore: Update build status badge URL in README.md and docs/index.md ([`ce88c2e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ce88c2e169ec227296c23593a61fcb0862b1c8af))
+
+### Feature
+
+* feat: Add celestial_tag function for generating names from catalog entries
+
+- Modify the celestial_tag function to accept a pandas Series entry instead of a DataFrame entry.
+- Update the function to generate a name tag for a celestial object based on its coordinates.
+- Refactor the function to handle different coordinate formats and handle missing coordinates.
+- Add unit tests for the celestial_tag function to ensure its correctness.
+
+Fixes #123 ([`d4b7dcd`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d4b7dcde2cb39e703056ef9c257a807095858f9b))
+
+* feat: Add celestial_tag function for generating names from catalog entries
+
+- Implemented `celestial_tag` function to generate names for astronomical objects based on catalog data (Issue #4).
+- Handles different catalog formats including RA/Dec coordinates and filenames.
+- Added custom exception `_NoValidCelestialCoordinatesError` for handling missing or invalid coordinates. ([`3131518`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/313151816534ae77e4fb1dec159542e13787e24d))
+
+### Unknown
+
+* Merge pull request #12 from mirsazzathossain/dev
+
+feat: Add celestial_tag function for generating names from catalog entries ([`3aadc94`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/3aadc94d5a330680d97ab0e9e62eabe30b44e05d))
+
 ## v0.3.0 (2024-09-14)
 
 ### Build
@@ -7,6 +36,8 @@
 * build: vpdate python version ([`228576b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/228576b19d9ec3b61cbcebe4c365656329dd362b))
 
 ### Chore
+
+* chore(release): update version to 0.3.0 ([`276517a`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/276517aa3ff869187dd26a94af107024f1e23da5))
 
 * chore: Update pandas-stubs dependency to version 3.14.0 ([`4f71c30`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/4f71c302ab8bd3f63514acc54c7c4d7fd7395b1c))
 
