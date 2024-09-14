@@ -11,6 +11,11 @@ classifiers=[
     "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "astroquery>=0.4.7",
+    "numpy>=1.24.4",
+    "pandas>=2.0.3",
+]
 
 [project.urls]
 Homepage = "https://mirsazzathossain.github.io/radio-galaxy-classifier/"
