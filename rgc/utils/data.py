@@ -8,9 +8,11 @@ manipulation.
 __author__ = "Mir Sazzat Hossain"
 
 
+from pathlib import Path
 from typing import cast
 
 import pandas as pd
+from astroquery.skyview import SkyView
 from astroquery.vizier import Vizier
 
 
@@ -42,3 +44,33 @@ def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
         return cast(pd.DataFrame, catalog[0].to_pandas())
     else:
         raise _UnsupportedServiceError()
+
+
+def celestial_capture(survey: str, ra: float, dec: float, filename: str) -> None:
+    """
+    Capture a celestial image using the SkyView service.
+
+    :param survey: The name of the survey to be used e.g. 'VLA FIRST (1.4 GHz)'.
+    :type survey: str
+
+    :param ra: The right ascension of the celestial object.
+    :type ra: float
+
+    :param dec: The declination of the celestial object.
+    :type dec: float
+
+    :param filename: The name of the file to save the image.
+    :type filename: str
+    """
+    image = SkyView.get_images(position=f"{ra}, {dec}", survey=survey, coordinates="J2000", pixels=(150, 150))[0]
+
+    comment = str(image[0].header["COMMENT"])
+    comment = comment.replace("\n", " ")
+    comment = comment.replace("\t", " ")
+
+    image[0].header.remove("comment", comment, True)
+    image[0].header.add_comment(comment)
+
+    folder_path = Path(filename).parent
+    Path(folder_path).mkdir(parents=True, exist_ok=True)
+    image.writeto(filename, overwrite=True)
