@@ -354,6 +354,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.fits_to_png" class="md-nav__link">
+    <span class="md-ellipsis">
+      fits_to_png
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.fits_to_png_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      fits_to_png_bulk
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -422,6 +440,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.fits_to_png" class="md-nav__link">
+    <span class="md-ellipsis">
+      fits_to_png
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rgc.utils.data.fits_to_png_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      fits_to_png_bulk
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -483,14 +519,11 @@ manipulation.</p>
 :type service: str</p>
 <p>:return: A pandas DataFrame containing the fetched catalog.
 :rtype: pd.DataFrame</p>
+<p>:raises _UnsupportedServiceError: If an unsupported service is provided.</p>
 
             <details class="quote">
               <summary>Source code in <code>rgc/utils/data.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
@@ -504,7 +537,13 @@ manipulation.</p>
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">catalog_quest</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">service</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Vizier&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">catalog_quest</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">service</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Vizier&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fetch a catalog from a given astronomical service e.g. VizieR, Simbad.</span>
 
@@ -516,6 +555,8 @@ manipulation.</p>
 
 <span class="sd">    :return: A pandas DataFrame containing the fetched catalog.</span>
 <span class="sd">    :rtype: pd.DataFrame</span>
+
+<span class="sd">    :raises _UnsupportedServiceError: If an unsupported service is provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">service</span> <span class="o">==</span> <span class="s2">&quot;Vizier&quot;</span><span class="p">:</span>
         <span class="n">Vizier</span><span class="o">.</span><span class="n">ROW_LIMIT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -544,21 +585,15 @@ manipulation.</p>
 <p>:param survey: The name of the survey to be used e.g. 'VLA FIRST (1.4 GHz)'.
 :type survey: str</p>
 <p>:param ra: The right ascension of the celestial object.
-:type ra: float</p>
+:type ra: Skycoord</p>
 <p>:param dec: The declination of the celestial object.
-:type dec: float</p>
+:type dec: Skycoord</p>
 <p>:param filename: The name of the file to save the image.
 :type filename: str</p>
 
             <details class="quote">
               <summary>Source code in <code>rgc/utils/data.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -579,7 +614,13 @@ manipulation.</p>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">celestial_capture</span><span class="p">(</span><span class="n">survey</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ra</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dec</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">celestial_capture</span><span class="p">(</span><span class="n">survey</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ra</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dec</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Capture a celestial image using the SkyView service.</span>
 
@@ -587,10 +628,10 @@ manipulation.</p>
 <span class="sd">    :type survey: str</span>
 
 <span class="sd">    :param ra: The right ascension of the celestial object.</span>
-<span class="sd">    :type ra: float</span>
+<span class="sd">    :type ra: Skycoord</span>
 
 <span class="sd">    :param dec: The declination of the celestial object.</span>
-<span class="sd">    :type dec: float</span>
+<span class="sd">    :type dec: Skycoord</span>
 
 <span class="sd">    :param filename: The name of the file to save the image.</span>
 <span class="sd">    :type filename: str</span>
@@ -629,16 +670,11 @@ manipulation.</p>
 :type entry: pd.Series</p>
 <p>:return: A string containing the name tag.
 :rtype: str</p>
+<p>:raises _NoValidCelestialCoordinatesError: If no valid celestial coordinates are found in the entry.</p>
 
             <details class="quote">
               <summary>Source code in <code>rgc/utils/data.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 85</span>
 <span class="normal"> 86</span>
 <span class="normal"> 87</span>
 <span class="normal"> 88</span>
@@ -658,7 +694,15 @@ manipulation.</p>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">celestial_tag</span><span class="p">(</span><span class="n">entry</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">celestial_tag</span><span class="p">(</span><span class="n">entry</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a name tag for a celestial object based on its coordinates.</span>
 
@@ -667,6 +711,8 @@ manipulation.</p>
 
 <span class="sd">    :return: A string containing the name tag.</span>
 <span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises _NoValidCelestialCoordinatesError: If no valid celestial coordinates are found in the entry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">format_dec</span><span class="p">(</span><span class="n">dec</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -685,6 +731,171 @@ manipulation.</p>
         <span class="k">raise</span> <span class="n">_NoValidCelestialCoordinatesError</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ra</span><span class="si">}{</span><span class="n">format_dec</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="rgc.utils.data.fits_to_png" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fits_to_png</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">img_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#rgc.utils.data.fits_to_png" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a FITS file to a PNG image.</p>
+<p>:param fits_file: The path to the FITS file.
+:type fits_file: str</p>
+<p>:param img_size: The size of the output image.
+:type img_size: Optional[tuple[int, int]]</p>
+<p>:return: A PIL Image object containing the PNG image.
+:rtype: Image.Image</p>
+<p>:raises _FileNotFoundError: If the FITS file is not found.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>rgc/utils/data.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fits_to_png</span><span class="p">(</span><span class="n">fits_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">img_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a FITS file to a PNG image.</span>
+
+<span class="sd">    :param fits_file: The path to the FITS file.</span>
+<span class="sd">    :type fits_file: str</span>
+
+<span class="sd">    :param img_size: The size of the output image.</span>
+<span class="sd">    :type img_size: Optional[tuple[int, int]]</span>
+
+<span class="sd">    :return: A PIL Image object containing the PNG image.</span>
+<span class="sd">    :rtype: Image.Image</span>
+
+<span class="sd">    :raises _FileNotFoundError: If the FITS file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">fits_file</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="n">fits_file</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">_FileNotFoundError</span><span class="p">(</span><span class="n">fits_file</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+
+    <span class="k">if</span> <span class="n">img_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">img_size</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;NAXIS1&quot;</span><span class="p">],</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;NAXIS2&quot;</span><span class="p">]</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span>
+    <span class="n">image</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">image</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">image</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">image</span><span class="p">))</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="rgc.utils.data.fits_to_png_bulk" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fits_to_png_bulk</span><span class="p">(</span><span class="n">fits_dir</span><span class="p">,</span> <span class="n">png_dir</span><span class="p">,</span> <span class="n">img_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#rgc.utils.data.fits_to_png_bulk" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a directory of FITS files to PNG images.</p>
+<p>:param fits_dir: The path to the directory containing the FITS files.
+:type fits_dir: str</p>
+<p>:param png_dir: The path to the directory to save the PNG images.
+:type png_dir: str</p>
+<p>:param img_size: The size of the output image.
+:type img_size: Optional[tuple[int, int]]</p>
+
+            <details class="quote">
+              <summary>Source code in <code>rgc/utils/data.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fits_to_png_bulk</span><span class="p">(</span><span class="n">fits_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">png_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">img_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a directory of FITS files to PNG images.</span>
+
+<span class="sd">    :param fits_dir: The path to the directory containing the FITS files.</span>
+<span class="sd">    :type fits_dir: str</span>
+
+<span class="sd">    :param png_dir: The path to the directory to save the PNG images.</span>
+<span class="sd">    :type png_dir: str</span>
+
+<span class="sd">    :param img_size: The size of the output image.</span>
+<span class="sd">    :type img_size: Optional[tuple[int, int]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fits_dir</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.fits&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fits_file</span> <span class="ow">in</span> <span class="n">fits_files</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">fits_to_png</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fits_file</span><span class="p">),</span> <span class="n">img_size</span><span class="p">)</span>
+
+        <span class="n">png_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">png_dir</span><span class="p">,</span> <span class="n">fits_file</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">png_file</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">png_file</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
