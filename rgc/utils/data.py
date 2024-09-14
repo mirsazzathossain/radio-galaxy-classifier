@@ -8,6 +8,8 @@ manipulation.
 __author__ = "Mir Sazzat Hossain"
 
 
+from typing import cast
+
 import pandas as pd
 from astroquery.vizier import Vizier
 
@@ -37,6 +39,6 @@ def catalog_quest(name: str, service: str = "Vizier") -> pd.DataFrame:
     if service == "Vizier":
         Vizier.ROW_LIMIT = -1
         catalog = Vizier.get_catalogs(name)
-        return catalog[0].to_pandas()
+        return cast(pd.DataFrame, catalog[0].to_pandas())
     else:
         raise _UnsupportedServiceError()
