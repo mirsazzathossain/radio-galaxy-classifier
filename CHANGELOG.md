@@ -1,6 +1,29 @@
 # CHANGELOG
 
+## v0.8.0 (2024-09-15)
+
+### Feature
+
+* feat(utils): add functions to compute dataset statistics and save HTML catalog
+
+- Implemented `compute_mean_std` to compute mean and standard deviation for datasets using PyTorch DataLoader.
+- Added `dataframe_to_html` function to save an astronomical catalog as an HTML file.
+- Added `remove_artifacts` function to remove files based on their extensions from a specified folder.
+- Included unit tests for all three functions to validate their functionality and error handling.
+
+Closes #7, Closes #3 ([`168dc31`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/168dc310c1ba169f818559007104feeafbe2dbf0))
+
+### Unknown
+
+* Merge pull request #17 from mirsazzathossain/dev
+
+feat(utils): add functions to compute dataset statistics and save HTM… ([`b69e0ef`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b69e0efe436cd4fbbd535ee6aec55eb2ac3b3b8a))
+
 ## v0.7.0 (2024-09-15)
+
+### Chore
+
+* chore(release): update version to 0.7.0 ([`c8ac95b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c8ac95b08f65f2f8072619610e8c03474be8ecee))
 
 ### Feature
 
