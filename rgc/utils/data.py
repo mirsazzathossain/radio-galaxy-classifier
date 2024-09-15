@@ -14,6 +14,8 @@ from typing import Optional, cast
 
 import numpy as np
 import pandas as pd
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 from astropy.io import fits
 from astroquery.skyview import SkyView
 from astroquery.vizier import Vizier
@@ -203,6 +205,8 @@ def mask_image(image: Image.Image, mask: Image.Image) -> Image.Image:
 
     :return: A PIL Image object containing the masked image.
     :rtype: Image.Image
+
+    :raises _ImageMaskDimensionError: If the dimensions of the image and mask do not match.
     """
     image_array = np.array(image)
     mask_array = np.array(mask)
@@ -235,6 +239,21 @@ class _ImageMaskCountMismatchError(Exception):
 
 
 def mask_image_bulk(image_dir: str, mask_dir: str, masked_dir: str) -> None:
+    """
+    Mask a directory of images with a directory of mask images.
+
+    :param image_dir: The path to the directory containing the images.
+    :type image_dir: str
+
+    :param mask_dir: The path to the directory containing the mask images.
+    :type mask_dir: str
+
+    :param masked_dir: The path to the directory to save the masked images.
+    :type masked_dir: str
+
+    :raises _FileNotFoundError: If no images or masks are found in the directories.
+    :raises _ImageMaskCountMismatchError: If the number of images and masks do not match.
+    """
     image_paths = sorted(Path(image_dir).glob("*.png"))
     mask_paths = sorted(Path(mask_dir).glob("*.png"))
 
@@ -263,3 +282,86 @@ def mask_image_bulk(image_dir: str, mask_dir: str, masked_dir: str) -> None:
             masked_image = mask_image(image, mask)
 
         masked_image.save(Path(masked_dir) / image_path.name)
+
+
+class _ColumnNotFoundError(Exception):
+    """
+    An exception to be raised when a specified column is not found in the catalog.
+    """
+
+    def __init__(self, column: str) -> None:
+        super().__init__(f"Column {column} not found in the catalog.")
+
+
+def _get_class_labels(catalog: pd.Series, classes: dict, cls_col: str) -> str:
+    """
+    Get the class labels for the celestial objects in the catalog.
+
+    :param catalog: A pandas Series representing a row in the catalog of celestial objects.
+    :type catalog: pd.Series
+
+    :param classes: A dictionary containing the classes of the celestial objects.
+    :type classes: dict
+
+    :param cls_col: The name of the column containing the class labels.
+    :type cls_col: str
+
+    :return: Class labels for the celestial objects in the catalog.
+    :rtype: str
+
+    :raises _ColumnNotFoundError: If the specified column is not found in the catalog.
+    """
+    if cls_col not in catalog.index:
+        raise _ColumnNotFoundError(cls_col)
+
+    value = catalog[cls_col]
+    for key, label in classes.items():
+        if key in value:
+            return str(label)
+
+    return ""
+
+
+def celestial_capture_bulk(
+    catalog: pd.DataFrame, survey: str, img_dir: str, classes: Optional[dict] = None, cls_col: Optional[str] = None
+) -> None:
+    """
+    Capture celestial images for a catalog of celestial objects.
+
+    :param catalog: A pandas DataFrame containing the catalog of celestial objects.
+    :type catalog: pd.DataFrame
+
+    :param survey: The name of the survey to be used e.g. 'VLA FIRST (1.4 GHz)'.
+    :type survey: str
+
+    :param img_dir: The path to the directory to save the images.
+    :type img_dir: str
+
+    :param classes: A dictionary containing the classes of the celestial objects.
+    :type classes: dict
+
+    :param cls_col: The name of the column containing the class labels.
+
+    :raises _InvalidCoordinatesError: If coordinates are invalid.
+    """
+    failed = pd.DataFrame(columns=catalog.columns)
+    for _, entry in catalog.iterrows():
+        try:
+            tag = celestial_tag(entry)
+            coordinate = SkyCoord(tag, unit=(u.hourangle, u.deg))
+
+            right_ascension = coordinate.ra.deg
+            declination = coordinate.dec.deg
+
+            label = _get_class_labels(entry, classes, cls_col) if classes is not None and cls_col is not None else ""
+
+            if "filename" in catalog.columns:
+                filename = f'{img_dir}/{label}_{entry["filename"]}.fits'
+            else:
+                filename = f"{img_dir}/{label}_{tag}.fits"
+
+            celestial_capture(survey, right_ascension, declination, filename)
+        except Exception as err:
+            series = entry.to_frame().T
+            failed = pd.concat([failed, series], ignore_index=True)
+            print(f"Failed to capture image. {err}")
