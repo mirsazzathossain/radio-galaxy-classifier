@@ -1,6 +1,33 @@
 # CHANGELOG
 
+## v0.7.0 (2024-09-15)
+
+### Feature
+
+* feat(utils): add bulk image download from catalog
+
+- Implemented `celestial_capture_bulk` function to automate the retrieval of images for all objects in a given catalog using coordinates.
+- Integrated NASA SkyView Virtual Observatory for querying and downloading FITS images.
+- Added support for handling different types of catalogs with class labels.
+- Implemented error handling for invalid coordinates and failed downloads.
+- Configurable survey and image directory path.
+- Added unit tests for the bulk download functionality using mock objects. ([`e4522c3`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/e4522c3f0bb6ea6df88666d5b235ff1efff475c1))
+
+### Refactor
+
+* refactor: Update test_celestial_capture_bulk.py for improved readability and maintainability ([`cb436ba`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cb436bad892301008f7072ef7e39b06db75535ab))
+
+### Unknown
+
+* Merge pull request #16 from mirsazzathossain/dev
+
+feat(utils): add bulk image download from catalog ([`b022bea`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b022bea4716546bc20b59617d0a1b90d3f19f053))
+
 ## v0.6.0 (2024-09-14)
+
+### Chore
+
+* chore(release): update version to 0.6.0 ([`ab48994`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ab48994ff3e6bb80383922290504b348f878e689))
 
 ### Feature
 
