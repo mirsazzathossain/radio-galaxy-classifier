@@ -14,6 +14,7 @@ from typing import Optional, cast
 
 import numpy as np
 import pandas as pd
+import torch
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
@@ -365,3 +366,52 @@ def celestial_capture_bulk(
             series = entry.to_frame().T
             failed = pd.concat([failed, series], ignore_index=True)
             print(f"Failed to capture image. {err}")
+
+
+def dataframe_to_html(catalog: pd.DataFrame, save_dir: str) -> None:
+    """
+    Save the catalog as an HTML file.
+
+    :param catalog: Catalog of the astronomical objects
+    :type catalog: pd.DataFrame
+    :param save_dir: Path to the directory to save the HTML file
+    :type save_dir: str
+    """
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    catalog.to_html(os.path.join(save_dir, "catalog.html"))
+
+
+def compute_mean_std(dataloader: torch.utils.data.DataLoader) -> tuple[torch.Tensor, torch.Tensor]:
+    """
+    Compute the mean and standard deviation of the dataset.
+
+    :param dataloader: The dataloader for the dataset.
+    :type dataloader: torch.utils.data.DataLoader
+
+    :return: The mean and standard deviation of the dataset.
+    :rtype: tuple[torch.Tensor, torch.Tensor]
+    """
+    data = torch.tensor([])
+    for batch in dataloader:
+        data = torch.cat((data, batch[0]), 0)
+
+    mean = torch.mean(data, dim=(0, 2, 3))
+    std = torch.std(data, dim=(0, 2, 3))
+
+    return mean, std
+
+
+def remove_artifacts(folder: str, extension: list[str]) -> None:
+    """
+    Remove files with the given extensions from a folder.
+
+    :param folder: Path to the folder to clear
+    :type folder: str
+    :param extension: List of file with the given extensions to keep
+    :type extension: list
+    """
+    for file in os.listdir(folder):
+        if not file.endswith(tuple(extension)):
+            os.remove(os.path.join(folder, file))
+
+    print(f"Artifacts removed from {folder} with extensions {', '.join(extension)}")
