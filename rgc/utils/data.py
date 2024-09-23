@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 from typing import Optional, cast
 
+import bdsf
 import numpy as np
 import pandas as pd
 import torch
@@ -415,3 +416,104 @@ def remove_artifacts(folder: str, extension: list[str]) -> None:
             os.remove(os.path.join(folder, file))
 
     print(f"Artifacts removed from {folder} with extensions {', '.join(extension)}")
+
+
+def generate_mask(
+    image_path: str,
+    mask_dir: str,
+    freq: float,
+    beam: tuple[float, float, float],
+    dilation: int,
+    threshold_pixel: float = 5.0,
+    threshold_island: float = 3.0,
+) -> None:
+    """
+    Detect sources in the image and generate a mask.
+
+    :param image_path: Path to the image file
+    :type image_path: str
+
+    :param mask_dir: Path to the directory to save the mask
+    :type mask_dir: str
+
+    :param freq: Frequency of the image in MHz
+    :type freq: float
+
+    :param beam: Beam size of the image in arcsec
+    :type beam: tuple
+
+    :param dilation: Dilation factor for the mask
+    :type dilation: int
+
+    :param threshold_pixel: Threshold for island peak in number of sigma above the mean
+    :type threshold_pixel: float
+
+    :param threshold_island: Threshold for island detection in number of sigma above the mean
+    :type threshold_island: float
+    """
+    try:
+        image = bdsf.process_image(
+            image_path,
+            beam=beam,
+            thresh_isl=threshold_island,
+            thresh_pix=threshold_pixel,
+            frequency=freq,
+        )
+
+        mask_file = Path(mask_dir) / Path(image_path).name
+        Path(mask_file).parent.mkdir(parents=True, exist_ok=True)
+
+        image.export_image(
+            img_type="island_mask",
+            outfile=mask_file,
+            clobber=True,
+            mask_dilation=dilation,
+        )
+
+    except Exception:
+        print("Failed to generate mask.")
+        return None
+
+
+def generate_mask_bulk(
+    catalog: pd.DataFrame, img_dir: str, mask_dir: str, freq: float, beam: tuple[float, float, float]
+) -> None:
+    """
+    Generate masks for a catalog of celestial objects.
+
+    :param catalog: A pandas DataFrame containing the catalog of celestial objects.
+    :type catalog: pd.DataFrame
+
+    :param img_dir: The path to the directory containing the images.
+    :type img_dir: str
+
+    :param mask_dir: The path to the directory to save the masks.
+    :type mask_dir: str
+
+    :param freq: Frequency of the image in MHz
+    :type freq: float
+
+    :param beam: Beam size of the image in arcsec
+    :type beam: tuple
+    """
+    for _, entry in catalog.iterrows():
+        try:
+            filename = entry["filename"]
+            image_path = os.path.join(img_dir, f"{filename}.fits")
+            dilation = entry["dilation"]
+            threshold_pixel = entry["background sigma"]
+            threshold_island = entry["foreground sigma"]
+
+            generate_mask(
+                image_path,
+                mask_dir,
+                freq,
+                beam,
+                dilation,
+                threshold_pixel,
+                threshold_island,
+            )
+
+        except Exception as err:
+            print(f"Failed to generate mask. {err}")
+            return None
