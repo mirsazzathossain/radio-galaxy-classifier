@@ -1,21 +1,39 @@
 # CHANGELOG
 
-## v0.8.0 (2024-09-15)
+## v0.9.0 (2024-09-23)
 
 ### Feature
 
-- feat(utils): add functions to compute dataset statistics and save HTML catalog
+* feat(utils): add functions to detect sources and generate mask
 
-* Implemented `compute_mean_std` to compute mean and standard deviation for datasets using PyTorch DataLoader.
-* Added `dataframe_to_html` function to save an astronomical catalog as an HTML file.
-* Added `remove_artifacts` function to remove files based on their extensions from a specified folder.
-* Included unit tests for all three functions to validate their functionality and error handling.
+This commit adds new functions to the `rgc.utils.data` module. The `generate_mask` function is added to detect sources in an image and generate a mask. The `generate_mask_bulk` function is added to generate masks for a catalog of celestial objects. These functions are useful for image processing and analysis tasks.
+
+The `generate_mask` function takes various parameters such as the image path, mask directory, frequency, beam size, dilation factor, and threshold values for pixel and island detection. It uses the `bdsf` library to process the image and export the generated mask.
+
+The `generate_mask_bulk` function takes a pandas DataFrame containing the catalog of celestial objects, the image directory, mask directory, frequency, and beam size. It iterates over the catalog entries and calls the `generate_mask` function for each entry to generate masks for all the images in the catalog.
+
+These new functions enhance the functionality of the `rgc` package and provide convenient tools for working with astronomical images. ([`a832e62`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/a832e62eefbf9b37e23b6fd95cfaa29e528b2724))
+
+## v0.8.0 (2024-09-15)
+
+### Chore
+
+* chore(release): update version to 0.8.0 ([`258e559`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/258e559791052a3bec5c7a6b2fe64b7c085cf6b4))
+
+### Feature
+
+* feat(utils): add functions to compute dataset statistics and save HTML catalog
+
+- Implemented `compute_mean_std` to compute mean and standard deviation for datasets using PyTorch DataLoader.
+- Added `dataframe_to_html` function to save an astronomical catalog as an HTML file.
+- Added `remove_artifacts` function to remove files based on their extensions from a specified folder.
+- Included unit tests for all three functions to validate their functionality and error handling.
 
 Closes #7, Closes #3 ([`168dc31`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/168dc310c1ba169f818559007104feeafbe2dbf0))
 
 ### Unknown
 
-- Merge pull request #17 from mirsazzathossain/dev
+* Merge pull request #17 from mirsazzathossain/dev
 
 feat(utils): add functions to compute dataset statistics and save HTM… ([`b69e0ef`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b69e0efe436cd4fbbd535ee6aec55eb2ac3b3b8a))
 
@@ -23,26 +41,26 @@ feat(utils): add functions to compute dataset statistics and save HTM… ([`b69e
 
 ### Chore
 
-- chore(release): update version to 0.7.0 ([`c8ac95b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c8ac95b08f65f2f8072619610e8c03474be8ecee))
+* chore(release): update version to 0.7.0 ([`c8ac95b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c8ac95b08f65f2f8072619610e8c03474be8ecee))
 
 ### Feature
 
-- feat(utils): add bulk image download from catalog
+* feat(utils): add bulk image download from catalog
 
-* Implemented `celestial_capture_bulk` function to automate the retrieval of images for all objects in a given catalog using coordinates.
-* Integrated NASA SkyView Virtual Observatory for querying and downloading FITS images.
-* Added support for handling different types of catalogs with class labels.
-* Implemented error handling for invalid coordinates and failed downloads.
-* Configurable survey and image directory path.
-* Added unit tests for the bulk download functionality using mock objects. ([`e4522c3`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/e4522c3f0bb6ea6df88666d5b235ff1efff475c1))
+- Implemented `celestial_capture_bulk` function to automate the retrieval of images for all objects in a given catalog using coordinates.
+- Integrated NASA SkyView Virtual Observatory for querying and downloading FITS images.
+- Added support for handling different types of catalogs with class labels.
+- Implemented error handling for invalid coordinates and failed downloads.
+- Configurable survey and image directory path.
+- Added unit tests for the bulk download functionality using mock objects. ([`e4522c3`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/e4522c3f0bb6ea6df88666d5b235ff1efff475c1))
 
 ### Refactor
 
-- refactor: Update test_celestial_capture_bulk.py for improved readability and maintainability ([`cb436ba`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cb436bad892301008f7072ef7e39b06db75535ab))
+* refactor: Update test_celestial_capture_bulk.py for improved readability and maintainability ([`cb436ba`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cb436bad892301008f7072ef7e39b06db75535ab))
 
 ### Unknown
 
-- Merge pull request #16 from mirsazzathossain/dev
+* Merge pull request #16 from mirsazzathossain/dev
 
 feat(utils): add bulk image download from catalog ([`b022bea`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b022bea4716546bc20b59617d0a1b90d3f19f053))
 
@@ -50,61 +68,61 @@ feat(utils): add bulk image download from catalog ([`b022bea`](https://github.co
 
 ### Chore
 
-- chore(release): update version to 0.6.0 ([`ab48994`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ab48994ff3e6bb80383922290504b348f878e689))
+* chore(release): update version to 0.6.0 ([`ab48994`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ab48994ff3e6bb80383922290504b348f878e689))
 
 ### Feature
 
-- feat: Add Masking Functionality for Single and Batch Image Processing
+* feat: Add Masking Functionality for Single and Batch Image Processing
 
-* Implemented mask_image function to apply a mask to a single image.
-* Added mask_image_bulk function to apply masks to all images in a directory.
-* Included unit tests for both functions to verify correct functionality.
-* Updated documentation for the new functions and exceptions. ([`f3c1c28`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/f3c1c28b5936e4cd1e30390e1dfecd2d741b1afa))
+- Implemented mask_image function to apply a mask to a single image.
+- Added mask_image_bulk function to apply masks to all images in a directory.
+- Included unit tests for both functions to verify correct functionality.
+- Updated documentation for the new functions and exceptions. ([`f3c1c28`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/f3c1c28b5936e4cd1e30390e1dfecd2d741b1afa))
 
 ### Refactor
 
-- refactor: update test_mask_image_bulk.py for improved readability and maintainability ([`76cc569`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/76cc569dac5bd3e0cb468ac81e52eaca554ffa29))
+* refactor: update test_mask_image_bulk.py for improved readability and maintainability ([`76cc569`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/76cc569dac5bd3e0cb468ac81e52eaca554ffa29))
 
-- refactor: update mask_image_bulk function for improved error handling and dimension checking ([`5fbda73`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/5fbda737d3f35e6b363e320dc5417da6bb88145a))
+* refactor: update mask_image_bulk function for improved error handling and dimension checking ([`5fbda73`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/5fbda737d3f35e6b363e320dc5417da6bb88145a))
 
-- refactor: Refactor test_mask_image_bulk.py for improved readability and maintainability ([`3772f59`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/3772f5998b073edd5cfcc69a67380f7e268f0a1c))
+* refactor: Refactor test_mask_image_bulk.py for improved readability and maintainability ([`3772f59`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/3772f5998b073edd5cfcc69a67380f7e268f0a1c))
 
 ### Unknown
 
-- Merge pull request #15 from mirsazzathossain/dev
+* Merge pull request #15 from mirsazzathossain/dev
 
 feat: Add Masking Functionality for Single and Batch Image Processing ([`3cdff2d`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/3cdff2d76b9dd573b2e7cee95ca0cdf281f7effc))
 
-- Create FUNDING.yml ([`35fd8ff`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/35fd8ffa83e89be1c6663f4a1f1bb4530115bdee))
+* Create FUNDING.yml ([`35fd8ff`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/35fd8ffa83e89be1c6663f4a1f1bb4530115bdee))
 
-- Update issue templates ([`d47bc41`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d47bc4194f06bb8a0bf59f318830e642c68b8ceb))
+* Update issue templates ([`d47bc41`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d47bc4194f06bb8a0bf59f318830e642c68b8ceb))
 
 ## v0.5.0 (2024-09-14)
 
 ### Chore
 
-- chore(release): update version to 0.5.0 ([`cc1b107`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cc1b107213368a884cc5a44bd0caf973c6361ab0))
+* chore(release): update version to 0.5.0 ([`cc1b107`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cc1b107213368a884cc5a44bd0caf973c6361ab0))
 
-- chore(ci): update Python versions in CI workflow ([`c58aef9`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c58aef9371e8837f0c17e0ea601c157f716c169b))
+* chore(ci): update Python versions in CI workflow ([`c58aef9`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c58aef9371e8837f0c17e0ea601c157f716c169b))
 
 ### Feature
 
-- feat(utils): add functionality to convert FITS images to PNG
+* feat(utils): add functionality to convert FITS images to PNG
 
-* Implemented `fits_to_png` function to convert a single FITS image to PNG.
-* Implemented `fits_to_png_bulk` function to convert all FITS images in a directory to PNG.
-* Handled normalization of pixel values between 0 and 255.
-* Added `_FileNotFoundError` for handling missing FITS files.
-* Included unittests for both `fits_to_png` and `fits_to_png_bulk`.
-* Mocked external dependencies such as file reading and saving in tests. ([`f01229b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/f01229bf5ecb06d0fd011c7796814f5938a54228))
+- Implemented `fits_to_png` function to convert a single FITS image to PNG.
+- Implemented `fits_to_png_bulk` function to convert all FITS images in a directory to PNG.
+- Handled normalization of pixel values between 0 and 255.
+- Added `_FileNotFoundError` for handling missing FITS files.
+- Included unittests for both `fits_to_png` and `fits_to_png_bulk`.
+- Mocked external dependencies such as file reading and saving in tests. ([`f01229b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/f01229bf5ecb06d0fd011c7796814f5938a54228))
 
 ### Refactor
 
-- refactor: update test_fits_to_png_bulk.py to add test for None image ([`66714f2`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/66714f2e186f0e0c15df77f74ff679537780156a))
+* refactor: update test_fits_to_png_bulk.py to add test for None image ([`66714f2`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/66714f2e186f0e0c15df77f74ff679537780156a))
 
 ### Unknown
 
-- Merge pull request #13 from mirsazzathossain/dev
+* Merge pull request #13 from mirsazzathossain/dev
 
 feat(utils): add functionality to convert FITS images to PNG ([`c49aa05`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c49aa056ed447d949c4eef9b64739c776dc3be59))
 
@@ -112,30 +130,30 @@ feat(utils): add functionality to convert FITS images to PNG ([`c49aa05`](https:
 
 ### Chore
 
-- chore(release): update version to 0.4.0 ([`cbeac5b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cbeac5b743a4aba09155a5192a8b6a812710dbb8))
+* chore(release): update version to 0.4.0 ([`cbeac5b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cbeac5b743a4aba09155a5192a8b6a812710dbb8))
 
-- chore: Update build status badge URL in README.md and docs/index.md ([`ce88c2e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ce88c2e169ec227296c23593a61fcb0862b1c8af))
+* chore: Update build status badge URL in README.md and docs/index.md ([`ce88c2e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ce88c2e169ec227296c23593a61fcb0862b1c8af))
 
 ### Feature
 
-- feat: Add celestial_tag function for generating names from catalog entries
+* feat: Add celestial_tag function for generating names from catalog entries
 
-* Modify the celestial_tag function to accept a pandas Series entry instead of a DataFrame entry.
-* Update the function to generate a name tag for a celestial object based on its coordinates.
-* Refactor the function to handle different coordinate formats and handle missing coordinates.
-* Add unit tests for the celestial_tag function to ensure its correctness.
+- Modify the celestial_tag function to accept a pandas Series entry instead of a DataFrame entry.
+- Update the function to generate a name tag for a celestial object based on its coordinates.
+- Refactor the function to handle different coordinate formats and handle missing coordinates.
+- Add unit tests for the celestial_tag function to ensure its correctness.
 
 Fixes #123 ([`d4b7dcd`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d4b7dcde2cb39e703056ef9c257a807095858f9b))
 
-- feat: Add celestial_tag function for generating names from catalog entries
+* feat: Add celestial_tag function for generating names from catalog entries
 
-* Implemented `celestial_tag` function to generate names for astronomical objects based on catalog data (Issue #4).
-* Handles different catalog formats including RA/Dec coordinates and filenames.
-* Added custom exception `_NoValidCelestialCoordinatesError` for handling missing or invalid coordinates. ([`3131518`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/313151816534ae77e4fb1dec159542e13787e24d))
+- Implemented `celestial_tag` function to generate names for astronomical objects based on catalog data (Issue #4).
+- Handles different catalog formats including RA/Dec coordinates and filenames.
+- Added custom exception `_NoValidCelestialCoordinatesError` for handling missing or invalid coordinates. ([`3131518`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/313151816534ae77e4fb1dec159542e13787e24d))
 
 ### Unknown
 
-- Merge pull request #12 from mirsazzathossain/dev
+* Merge pull request #12 from mirsazzathossain/dev
 
 feat: Add celestial_tag function for generating names from catalog entries ([`3aadc94`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/3aadc94d5a330680d97ab0e9e62eabe30b44e05d))
 
@@ -143,55 +161,55 @@ feat: Add celestial_tag function for generating names from catalog entries ([`3a
 
 ### Build
 
-- build: vpdate python version ([`228576b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/228576b19d9ec3b61cbcebe4c365656329dd362b))
+* build: vpdate python version ([`228576b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/228576b19d9ec3b61cbcebe4c365656329dd362b))
 
 ### Chore
 
-- chore(release): update version to 0.3.0 ([`276517a`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/276517aa3ff869187dd26a94af107024f1e23da5))
+* chore(release): update version to 0.3.0 ([`276517a`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/276517aa3ff869187dd26a94af107024f1e23da5))
 
-- chore: Update pandas-stubs dependency to version 3.14.0 ([`4f71c30`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/4f71c302ab8bd3f63514acc54c7c4d7fd7395b1c))
+* chore: Update pandas-stubs dependency to version 3.14.0 ([`4f71c30`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/4f71c302ab8bd3f63514acc54c7c4d7fd7395b1c))
 
-- chore: Update pandas dependency to version 2.0.3 ([`cf2c81e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cf2c81ebe5536eafedd05c58a0ef5f035e2b91d4))
+* chore: Update pandas dependency to version 2.0.3 ([`cf2c81e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/cf2c81ebe5536eafedd05c58a0ef5f035e2b91d4))
 
-- chore: Update pandas dependency to pandas-stubs 2.0.2.230605 ([`8534477`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/85344774b9f2ce7e7a36bb63525d0cfa78f82074))
+* chore: Update pandas dependency to pandas-stubs 2.0.2.230605 ([`8534477`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/85344774b9f2ce7e7a36bb63525d0cfa78f82074))
 
-- chore: remove mypy configuration file and update pyproject.toml ([`a11bfaf`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/a11bfaf680f751431069251c109f856ebcabe778))
+* chore: remove mypy configuration file and update pyproject.toml ([`a11bfaf`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/a11bfaf680f751431069251c109f856ebcabe778))
 
 ### Ci
 
-- ci: Update python-version options in ci.yml ([`838f27c`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/838f27cf85b9aef31afbf3f485e9cc5289b0d994))
+* ci: Update python-version options in ci.yml ([`838f27c`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/838f27cf85b9aef31afbf3f485e9cc5289b0d994))
 
-- ci: update default Python version to 3.11 in setup-python-env action.yml ([`4ee87b6`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/4ee87b65b5e8d650ea2d4b745c2602549e5c9578))
+* ci: update default Python version to 3.11 in setup-python-env action.yml ([`4ee87b6`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/4ee87b65b5e8d650ea2d4b745c2602549e5c9578))
 
 ### Documentation
 
-- docs: refactor module import in docs ([`42f3b65`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/42f3b65463a09147157363a626c25d0ca6466197))
+* docs: refactor module import in docs ([`42f3b65`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/42f3b65463a09147157363a626c25d0ca6466197))
 
-- docs: update CHANGELOG.md ([`217fb5a`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/217fb5acf400880bf1a15a9d2ca7cb336fcd0ef5))
+* docs: update CHANGELOG.md ([`217fb5a`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/217fb5acf400880bf1a15a9d2ca7cb336fcd0ef5))
 
 ### Feature
 
-- feat: Add celestial_capture function for downloading images from SkyView
+* feat: Add celestial_capture function for downloading images from SkyView
 
-* Implemented `celestial_capture` function to retrieve and save celestial images from the NASA SkyView Virtual Observatory using given sky coordinates.
-* Supports various image surveys and includes error handling for invalid coordinates.
-* Saves FITS images with cleaned header comments and ensures directory creation.
+- Implemented `celestial_capture` function to retrieve and save celestial images from the NASA SkyView Virtual Observatory using given sky coordinates.
+- Supports various image surveys and includes error handling for invalid coordinates.
+- Saves FITS images with cleaned header comments and ensures directory creation.
 
 Closes #2 ([`39bccaa`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/39bccaaacb183aef9b4e049d5dc6c601cd816057))
 
 ### Refactor
 
-- refactor: update data.py to use type hinting for catalog_quest return value ([`77ea8c4`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/77ea8c46cfb8a88a5608b937faba42b4c9f111cf))
+* refactor: update data.py to use type hinting for catalog_quest return value ([`77ea8c4`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/77ea8c46cfb8a88a5608b937faba42b4c9f111cf))
 
 ### Test
 
-- test: Add unit test for celestial_capture function ([`c04cf53`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c04cf5357e5e06dddb822b00597fa1165f84f9df))
+* test: Add unit test for celestial_capture function ([`c04cf53`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c04cf5357e5e06dddb822b00597fa1165f84f9df))
 
-- test: Add mypy configuration file ([`c76f67f`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c76f67f8769f7945f5bdea780957086312fb7fe7))
+* test: Add mypy configuration file ([`c76f67f`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c76f67f8769f7945f5bdea780957086312fb7fe7))
 
 ### Unknown
 
-- Merge pull request #10 from mirsazzathossain/dev
+* Merge pull request #10 from mirsazzathossain/dev
 
 feat: Add celestial_capture function for downloading images from SkyView ([`1496ccf`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/1496ccf3060dd0a4ddf8229a186db222b5d16117))
 
@@ -199,29 +217,29 @@ feat: Add celestial_capture function for downloading images from SkyView ([`1496
 
 ### Chore
 
-- chore(release): update version to 0.2.0 ([`1573da9`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/1573da9e5b08326c5c62feb29403aa20382ac700))
+* chore(release): update version to 0.2.0 ([`1573da9`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/1573da9e5b08326c5c62feb29403aa20382ac700))
 
 ### Documentation
 
-- docs: update license in CHANGELOG.md ([`ebb7f39`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ebb7f3950cd8cf340e8d78e3e6ee0d2135f10023))
+* docs: update license in CHANGELOG.md ([`ebb7f39`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/ebb7f3950cd8cf340e8d78e3e6ee0d2135f10023))
 
 ### Feature
 
-- feat: implement catalog fetching from Vizier
+* feat: implement catalog fetching from Vizier
 
-* Add `fetch_catalog` function to retrieve catalogs from Vizier service.
-* Implement `_UnsupportedServiceError` exception class for unsupported services.
-* Add tests for successful retrieval from Vizier and error handling for unsupported services.
+- Add `fetch_catalog` function to retrieve catalogs from Vizier service.
+- Implement `_UnsupportedServiceError` exception class for unsupported services.
+- Add tests for successful retrieval from Vizier and error handling for unsupported services.
 
 Closes #1 ([`19dbdad`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/19dbdada32defef0893a79be43408140dbe59438))
 
 ### Refactor
 
-- refactor: refactor `fetch_catalog` function to `catalog_quest` ([`b752bc2`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b752bc2c453154381cbc2bbbccec1c1b853cbeac))
+* refactor: refactor `fetch_catalog` function to `catalog_quest` ([`b752bc2`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/b752bc2c453154381cbc2bbbccec1c1b853cbeac))
 
 ### Unknown
 
-- Merge pull request #8 from mirsazzathossain/dev
+* Merge pull request #8 from mirsazzathossain/dev
 
 feat: implement catalog fetching from Vizier #1 ([`1b0f41e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/1b0f41ef0f2129d65c31710b7386fc9fb66d4b0a))
 
@@ -229,40 +247,40 @@ feat: implement catalog fetching from Vizier #1 ([`1b0f41e`](https://github.com/
 
 ### Chore
 
-- chore(release): update version to 0.1.0 ([`2fd7066`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/2fd7066b52c3d3d8248be042d420663c1024095b))
+* chore(release): update version to 0.1.0 ([`2fd7066`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/2fd7066b52c3d3d8248be042d420663c1024095b))
 
 ### Documentation
 
-- docs: update license ([`6f67257`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/6f67257a4527d5882f5c1acf3482358e1a535021))
+* docs: update license ([`6f67257`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/6f67257a4527d5882f5c1acf3482358e1a535021))
 
 ### Feature
 
-- feat: Add bug report and feature request issue templates ([`81dfb9b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/81dfb9bbd2568a8ac9ff7235d7163cf17fe32993))
+* feat: Add bug report and feature request issue templates ([`81dfb9b`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/81dfb9bbd2568a8ac9ff7235d7163cf17fe32993))
 
 ### Refactor
 
-- refactor: remove unused foo.py and test_foo.py files ([`0267301`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/026730149289a50c4e06115cd498dae059456b78))
+* refactor: remove unused foo.py and test_foo.py files ([`0267301`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/026730149289a50c4e06115cd498dae059456b78))
 
-- refactor: update build status badge URL in README.md ([`d3cfb5d`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d3cfb5df6fa9fe75dcbff53e5dca9b7f6b659079))
+* refactor: update build status badge URL in README.md ([`d3cfb5d`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/d3cfb5df6fa9fe75dcbff53e5dca9b7f6b659079))
 
-- refactor: refactor build process in cd.yml workflow ([`7525ac5`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/7525ac595dff64d35a9cdb9d9b48e98ccf57981e))
+* refactor: refactor build process in cd.yml workflow ([`7525ac5`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/7525ac595dff64d35a9cdb9d9b48e98ccf57981e))
 
 ## v0.0.0 (2024-09-14)
 
 ### Chore
 
-- chore(release): update version to 0.0.0 ([`3859775`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/38597753b89c0b6b78c7b456deb0cc7728039c3e))
+* chore(release): update version to 0.0.0 ([`3859775`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/38597753b89c0b6b78c7b456deb0cc7728039c3e))
 
-- chore: update pre-commit instructions in CONTRIBUTING.md
+* chore: update pre-commit instructions in CONTRIBUTING.md
 
-* Added instructions to run pre-commit checks manually
-* Updated mkdocs.yml to fix indentation
-* Removed unnecessary lines from LICENSE file
-* Updated devcontainer.json to remove empty features object
-* Added classifiers in pyproject.toml
-* Added dev dependencies in pyproject.toml
-* Updated semantic-release configuration in pyproject.toml ([`c739435`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c7394356962540a91355550c5262552f4c2f1a77))
+- Added instructions to run pre-commit checks manually
+- Updated mkdocs.yml to fix indentation
+- Removed unnecessary lines from LICENSE file
+- Updated devcontainer.json to remove empty features object
+- Added classifiers in pyproject.toml
+- Added dev dependencies in pyproject.toml
+- Updated semantic-release configuration in pyproject.toml ([`c739435`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/c7394356962540a91355550c5262552f4c2f1a77))
 
 ### Unknown
 
-- Init commit ([`9f8a983`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/9f8a983680c581346f6c4822f8ee4b2123e86519))
+* Init commit ([`9f8a983`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/9f8a983680c581346f6c4822f8ee4b2123e86519))
