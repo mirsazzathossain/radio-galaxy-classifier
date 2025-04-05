@@ -1,6 +1,25 @@
 # CHANGELOG
 
+## v0.10.0 (2025-04-05)
+
+### Chore
+
+* chore: update .gitignore and uv.lock for new dependencies and versioning ([`f84281e`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/f84281e66bea241e076f256f6d4a86d379533048))
+
+### Feature
+
+* feat(models): add DSteerableLeNet model and update imports
+chore: add new dependencies for image processing and data handling ([`97500b4`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/97500b4c14480c2239325e7786091299d9c6ac25))
+
+### Unknown
+
+* Update README.md ([`9f56047`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/9f560473de7db990b3e8d5d24515b87d50a97e5f))
+
 ## v0.9.0 (2024-09-23)
+
+### Chore
+
+* chore(release): update version to 0.9.0 ([`2363c6d`](https://github.com/mirsazzathossain/radio-galaxy-classifier/commit/2363c6d837efe76249bc21db6fe0f35a9c931cf1))
 
 ### Feature
 
