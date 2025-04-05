@@ -14,7 +14,9 @@ import pickle
 import tarfile
 from typing import ClassVar, Optional
 
+import albumentations
 import numpy as np
+import pytorch_lightning as pl
 import torch
 import torchvision
 from PIL import Image
@@ -578,3 +580,128 @@ class MiraBest(Dataset):
         tmp = "    Target Transforms (if any): "
         fmt_str += "{}{}".format(tmp, self.target_transform.__repr__().replace("\n", "\n" + " " * len(tmp)))
         return fmt_str
+
+
+class Transforms:
+    """A class to apply transformations to images."""
+
+    def __init__(self, transforms: albumentations.Compose) -> None:
+        """
+        Initialize the Transforms class.
+
+        :param transforms: The transformations to apply.
+        :type transforms: albumentations.Compose
+        """
+        self.transforms = transforms
+
+    def __call__(self, img: Image.Image, *args, **kwargs) -> torch.Tensor:
+        """
+        Apply the transformations to the image.
+
+        :param img: The image to transform.
+        :type img: Image.Image
+        :return: The transformed image.
+        :rtype: torch.Tensor
+        """
+        return self.transforms(image=np.array(img))["image"]
+
+
+class BentLightningDataModule(pl.LightningDataModule):
+    """
+    A PyTorch Lightning DataModule for the BENT dataset.
+    """
+
+    def __init__(
+        self,
+        data_dir: str,
+        batch_size: int = 32,
+        num_workers: int = 4,
+        transform=None,
+        test_transform=None,
+        include_small=False,
+    ) -> None:
+        """
+        Initialize the DataModule.
+
+        :param root: The root directory of the dataset.
+        :type root: str
+        :param batch_size: The batch size.
+        :type batch_size: int
+        :param num_workers: The number of workers for data loading.
+        :type num_workers: int
+        :param transform: The transform to apply to the training data.
+        :type transform: torchvision.transforms.Compose
+        :param test_transform: The transform to apply to the test data.
+        :type test_transform: torchvision.transforms.Compose
+        :param include_small: Whether to include the small dataset.
+        :type include_small: bool
+        """
+        super().__init__()
+        self.data_dir = data_dir
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.transform = transform
+        self.test_transform = test_transform
+        self.include_small = include_small
+
+    def setup(self, stage=None) -> None:
+        """
+        Setup the DataModule.
+
+        :param stage: The stage to setup. Can be "fit", "test", or "predict".
+        :type stage: str
+        """
+        self.train_dataset = Bent(
+            root="data/bent",
+            download=True,
+            train=True,
+            transform=Transforms(transforms=self.transform),
+            target_transform=None,
+            include_small=self.include_small,
+        )
+        self.val_dataset = Bent(
+            root="data/bent",
+            download=True,
+            train=False,
+            transform=Transforms(transforms=self.transform),
+            target_transform=None,
+            include_small=self.include_small,
+        )
+        self.test_dataset = Bent(
+            root="data/bent",
+            download=True,
+            train=False,
+            transform=Transforms(transforms=self.test_transform),
+            target_transform=None,
+            include_small=self.include_small,
+        )
+
+    def train_dataloader(self) -> torch.utils.data.DataLoader:
+        """
+        Returns the training dataloader.
+        :return: The training dataloader.
+        :rtype: torch.utils.data.DataLoader
+        """
+        return torch.utils.data.DataLoader(
+            self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers
+        )
+
+    def val_dataloader(self) -> torch.utils.data.DataLoader:
+        """
+        Returns the validation dataloader.
+        :return: The validation dataloader.
+        :rtype: torch.utils.data.DataLoader
+        """
+        return torch.utils.data.DataLoader(
+            self.val_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers
+        )
+
+    def test_dataloader(self) -> torch.utils.data.DataLoader:
+        """
+        Returns the test dataloader.
+        :return: The test dataloader.
+        :rtype: torch.utils.data.DataLoader
+        """
+        return torch.utils.data.DataLoader(
+            self.test_dataset, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers
+        )
